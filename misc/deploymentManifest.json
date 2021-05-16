@@ -1,0 +1,131 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "spatialanalysis": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azure-cognitive-services/vision/spatial-analysis:latest",
+                            "createOptions": "{\"k8s-experimental\": {\"volumes\": [{\"volume\": {\"name\": \"dshm\",\"emptyDir\": {\"medium\": \"Memory\",\"sizeLimit\": 536870912}},\"volumeMounts\": [{\"name\": \"dshm\",\"mountPath\": \"/dev/shm\",\"mountPropagation\": \"None\",\"readOnly\": \"false\",\"subPath\": \"\"}]}]},\"HostConfig\": {\"IpcMode\": \"host\",\"PortBindings\":{\"2222/tcp\":[{\"HostPort\":\"2222\"}]},\"Binds\": [\"/tmp/.X11-unix:/tmp/.X11-unix\"],\"Runtime\": \"nvidia\",\"ShmSize\":536870912,\"LogConfig\": {\"Type\": \"json-file\",\"Config\": {\"max-size\": \"10m\",\"max-file\": \"200\"}}}}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "DISPLAY": {
+                                "value": ":1"
+                            },
+                            "QT_X11_NO_MITSHM": {
+                                "value": "1"
+                            },
+                            "ARCHON_LOG_LEVEL": {
+                                "value": "info"
+                            },
+                            "ARCHON_SHARED_BUFFER_LIMIT": {
+                                "value": "377487360"
+                            },
+                            "OMP_WAIT_POLICY": {
+                                "value": "PASSIVE"
+                            },
+                            "EULA": {
+                                "value": "accept"
+                            },
+                            "ARCHON_GRAPH_READY_TIMEOUT": {
+                                "value": "600"
+                            },
+                            "ORT_TENSORRT_ENGINE_CACHE_ENABLE": {
+                                "value": "0"
+                            },
+                            "BILLING":{
+                                "value": "https://computer-vision-spatial-analysis.cognitiveservices.azure.com/"
+                            },
+                            "APIKEY":{
+                                "value": "c173ac1ac3ff4e4180d4c0a1003c130f"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25"
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.0",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-agent:1.0",
+                            "createOptions": ""
+                        },
+                        "type": "docker"
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-hub:1.0",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"443/tcp\":[{\"HostPort\":\"443\"}],\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}]}}}"
+                        },
+                        "type": "docker",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "route": "FROM /messages/* INTO $upstream"
+                },
+                "schemaVersion": "1.0",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        },
+        "spatialanalysis": {
+            "properties.desired": {
+                "globalSettings": {
+                    "PlatformTelemetryEnabled": false,
+                    "CustomerTelemetryEnabled": true
+                },
+                "graphs": {
+                    "personCount": {
+                        "operationId": "cognitiveservices.vision.spatialanalysis-personcount",
+                        "version": 1,
+                        "enabled": true,
+                        "sharedNodes": {
+                            "personCountSharedDetector": {
+                                "node": "PersonCountGraph/detector",
+                                "parameters": {
+                                    "DETECTOR_NODE_CONFIG": "{ \"gpu_index\": 0, \"batch_size\": 1}"
+                                }
+                            }
+                        },
+                        "parameters": {
+                            "VIDEO_DECODE_GPU_INDEX": 0
+                        },
+                        "instances": {
+                            "personCountInstance1": {
+                                "sharedNodeMap": {
+                                    "PersonCountGraph/detector": "personCountSharedDetector",
+                                    "PersonCountGraph/facemask": "personCountSharedFacemask"
+                                },
+                                "parameters": {
+                                    "VIDEO_URL": "https://soumitri.blob.core.windows.net/spatial-analysis/DPA-OMG-010-20190528-113954-1559068794_clip_01_54_02_44.mp4",
+                                    "VIDEO_SOURCE_ID": "personCountCamera",
+                                    "VIDEO_IS_LIVE": false,
+                                    "SPACEANALYTICS_CONFIG": "{\"zones\":[{\"name\":\"queue\",\"polygon\":[[0.3,0.3],[0.3,0.9],[0.6,0.9],[0.6,0.3],[0.3,0.3]], \"events\": [{\"type\":\"count\", \"config\":{\"trigger\": \"event\", \"threshold\":16.0, \"focus\": \"footprint\"}}]}]}"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "diagnostics": {
+            "properties.desired": {}
+        }
+    }
+}

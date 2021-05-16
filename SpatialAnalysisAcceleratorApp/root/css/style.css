@@ -1,0 +1,129 @@
+body {
+  font-family: 'Roboto';
+  font-size: 14px;
+  padding: 50px;
+  margin: 0;
+  text-align: center;
+}
+
+.personCount{  
+  font-size: 10vw;
+  width: 100%;
+  height: 100%;
+  color:rgb(88, 138, 22);
+}
+
+.flexHeader {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 400px;
+  height: 100px;
+  margin-bottom: 50px;
+}
+.cardTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.container {
+  padding: 2px;
+}
+
+.topSpacer{
+  margin-top: 60px;
+}
+
+.source {
+  margin-left: 70px;
+  margin-bottom: 10px;
+  width: 30%;
+}
+
+.hideit{
+  display: none !important;
+}
+
+.header{
+  background-color: black;
+  position: relative;
+  padding: 20px;
+  color: white;
+  margin: -50px;
+}
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
+
+.event{
+  font-size: 10pt;
+  background-color: lightgoldenrodyellow;
+  text-align: left;
+  word-break: break-word;
+  min-height: 50px;
+}
+
+.iotChartContainer{
+  width: 70%;
+}
+.iotChartbox {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.horizontalBox{
+  position: relative;
+}
+
+.iotChart {
+  width: 90% !important;
+  height: 20% !important;
+  padding: 10px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+body select {
+  padding: 10px 70px 10px 13px;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #e3e3e3;
+  border-radius: 3px;
+  background: url("https://i.ibb.co/b7xjLrB/selectbox-arrow.png") right center no-repeat;
+  background-color: #fff;
+  color: #444444;
+  line-height: 16px;
+  appearance: none;
+  /* this is must */ -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* body select.select_box option */
+body select option {
+  padding: 0 4px;
+}
+
+/* for Edge */
+select::-ms-expand {
+  display: none;
+}
+
+select:disabled::-ms-expand {
+  background: #f60;
+}
